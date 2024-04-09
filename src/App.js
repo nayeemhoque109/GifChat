@@ -3,7 +3,6 @@ import Menu from "./components/menu";
 import Pages from "./components/pages";
 
 const Container = styled.div`
-  text-align: center;
   background: #f8f9fb;
   height: 100vh;
   width: 100%;
@@ -17,7 +16,6 @@ function App() {
     <Container>
       <Menu/>
       <Pages/>
-          Learn React
     </Container>
 
   );
