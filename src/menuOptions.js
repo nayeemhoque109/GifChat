@@ -30,6 +30,13 @@ export const menuOptions = [
       senderID: 0,
       addedOn: "12:00 PM",
     },
+    {
+        id: 2,
+        messageType: "TEXT",
+        text: "Hey, What's up?",
+        senderID: 1,
+        addedOn: "12:01 PM",
+      },
 
  
   ];

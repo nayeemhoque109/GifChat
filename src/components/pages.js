@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { SearchContainer, SearchInput } from "./menu";
+import { messagesList } from "../menuOptions";
+
 
 const Container = styled.div`
   display: flex;
@@ -66,12 +68,13 @@ const pages =()=>{
               test
           </ProfileHeader> 
           <MessageContainer>
-              <MessageDiv isYours={true}>
-                <Message isYours={true}>hello </Message>
-              </MessageDiv>
-              <MessageDiv isYours={false}>
-                <Message isYours={false}>hello </Message>
-              </MessageDiv>
+            {messagesList.map((messageData) => (
+                <MessageDiv isYours={messageData.senderID === 0}>
+                <Message isYours={messageData.senderID === 0}> 
+                    {messageData.text}
+                 </Message>
+                </MessageDiv>
+            ))}
           </MessageContainer>
           <ChatBox>
             <SearchContainer>
