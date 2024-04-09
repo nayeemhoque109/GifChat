@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { menuOptions } from "../menuOptions";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -94,15 +96,16 @@ const ProfileIcon = styled(ProfileImage)`
 `;
 
 
-const FriendComponent = () => {
+const FriendComponent = (props) => {
+    const { userData } = props;
     return (
         <Options>
             <ProfileIcon src="/profile-icon.svg" />
             <OptionsInfo>
-            <OptionsName>Friend Name</OptionsName>
-            <MessageText>Message Text</MessageText>
+            <OptionsName>{userData.name}</OptionsName>
+            <MessageText>{userData?.lastText}</MessageText>
             </OptionsInfo>
-            <MessageTime>12:00</MessageTime>
+            <MessageTime>{userData?.lastTextTime}</MessageTime>
         </Options>
     );
 };
@@ -122,8 +125,11 @@ function menu() {
           />
         </SearchContainer>
       </SearchBox>
-      <FriendComponent/>
-      <FriendComponent/>
+      {menuOptions.map((userData) => (
+        <FriendComponent
+          userData={userData}
+        />
+      ))}
     </Container>
   );
 };
