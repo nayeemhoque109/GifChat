@@ -51,6 +51,9 @@ const Options = styled.div`
   border-bottom: 1px solid #f2f2f2;
   background: white;
   cursor: pointer;
+
+  :hover {
+    background: #ebebeb;
   }
 `;
 const OptionsInfo = styled.div`
@@ -97,9 +100,9 @@ const ProfileIcon = styled(ProfileImage)`
 
 
 const FriendComponent = (props) => {
-    const { userData } = props;
+    const { userData,setChat } = props;
     return (
-        <Options>
+        <Options onClick={()=>setChat(userData)}>
             <ProfileIcon src="/profile-icon.svg" />
             <OptionsInfo>
             <OptionsName>{userData.name}</OptionsName>
@@ -109,7 +112,7 @@ const FriendComponent = (props) => {
         </Options>
     );
 };
-function menu() {
+function menu(props) {
   return (
     <Container>
       <ProfileInfoDiv>
@@ -127,7 +130,7 @@ function menu() {
       </SearchBox>
       {menuOptions.map((userData) => (
         <FriendComponent
-          userData={userData}
+          userData={userData} setChat={props.setChat}
         />
       ))}
     </Container>

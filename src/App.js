@@ -40,13 +40,12 @@ function App() {
   const [selectedChat, setChat] = useState();
   return (
     <Container>
-      <Menu/>
+      <Menu setChat={setChat} />
       {selectedChat ? (
-      <Pages/>
+      <Pages selectedChat={selectedChat} />
        ):(
          <Placeholder>
         <ChatPlaceholder src = "/logo.png"/>fgwefge
-
         </Placeholder>
         )}
     </Container>
