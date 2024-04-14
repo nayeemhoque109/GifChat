@@ -62,22 +62,23 @@ const EmojiImage = styled.img`
   opacity: 0.4;
   cursor: pointer;
 `;
-const pages =(props)=>{
+const Pages =(props)=>{
   const { selectedChat} = props;
   const [text, setText] = useState("");
   const [pickerVisible, togglePicker] = useState(false);
   const [messageList, setMessageList] = useState(messagesList);
 
   const onEmojiClick = (event, emojiObj) => {
-      setText(text + emojiObj.emoji);
-      togglePicker(false);
+    console.log(emojiObj.emoji); // Add this line
+    setText(text + emojiObj.emoji);
+    togglePicker(false);
       
   };
 
   const onEnterPress = (event) => {
     if (event.key === "Enter") {
-      const message = [...messageList];
-      messagesList.push({
+      const messages = [...messageList];
+      messages.push({
         ID: 0,
         messageType: "TEXT",
         text,
@@ -109,20 +110,17 @@ const pages =(props)=>{
             {pickerVisible && (
               <Picker
                 pickerStyle={{ position: "absolute", bottom: "60px" }}
-                onEmojiClick={(e, emoji) => {
-                  setText(text + emoji.emoji);
-                  togglePicker(false);
-                }}
+                onEmojiClick={onEmojiClick}
               />
             )}
             <EmojiImage
-              src={"/whatsapp-clone/data.svg"}
-              onClick={() => togglePicker((pickerVisible) => !pickerVisible)}
+              src={"/data.svg"}
+              onClick={() => togglePicker(!pickerVisible)}
             />
               <SearchInput
                 placeholder="Type a message"
                 value={text}
-                onKeyDown ={}
+                onKeyDown ={onEnterPress}
                 onChange={(e) => setText(e.target.value)}
               />
             </SearchContainer>
@@ -131,4 +129,4 @@ const pages =(props)=>{
       );
     }
     
-    export default pages;
+    export default Pages;

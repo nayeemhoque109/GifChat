@@ -112,7 +112,7 @@ const FriendComponent = (props) => {
         </Options>
     );
 };
-function menu(props) {
+function Menu(props) {
   return (
     <Container>
       <ProfileInfoDiv>
@@ -136,4 +136,4 @@ function menu(props) {
     </Container>
   );
 };
-export default menu;
+export default Menu;
