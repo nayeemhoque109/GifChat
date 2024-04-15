@@ -15,9 +15,9 @@ export const menuOptions = [
       },
     {
       id: 3,
-      name: "John Appleseed",
-      profilePic: "/whatsapp-clone/profile/theindiandev.jpeg",
-      lastText: `I'm with @theindiandev`,
+      name: "person",
+      profilePic: "",
+      lastText: `test`,
       lastTextTime: "12:45 PM",
     }
 
