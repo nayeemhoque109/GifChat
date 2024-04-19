@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+//https://www.npmjs.com/package/emoji-picker-react
 import Picker from "emoji-picker-react";
 import { SearchContainer, SearchInput } from "./menu";
 import { messagesList } from "../menuOptions";
