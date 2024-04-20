@@ -22,6 +22,17 @@ module.exports = {
     sendResponse(res, userObj, "User created successfully", true, 200);
   },
 
+  loginUser: async (req, res) => {
+    const requestData = req.body;
+    const isUserExist = await UserModel.findOneData({
+      email: requestData.email,
+      password: requestData.password,
+    });
+    delete isUserExist.password;
+    if (!isUserExist) return sendError(res, {}, "Invalid credentials!");
+    sendResponse(res, isUserExist, "User fetched successfully", true, 200);
+  },
+
   createChannel: async (req, res) => {
     const channelUsers = req.body.channelUsers;
     const firstUser = channelUsers[0];
@@ -54,7 +65,7 @@ module.exports = {
   getChannelList: async (req, res) => {
     const requestData = req.query;
     const channelList = await ChannelModel.findData({
-      "channelUsers.email": requestData.email,
+      "channelUsers._id": requestData.userId,
     });
     sendResponse(res, channelList, "Channel list fetched", true, 200);
   },
