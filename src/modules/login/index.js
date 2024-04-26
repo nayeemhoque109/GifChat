@@ -5,9 +5,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import App from "../../App";
 import cookieManager from "../../managers/cookieManager";
-import axios from "axios";
-//import httpManager from "../../managers/httpManager";
-const API_BASE_URL = "http://localhost:3001";
+import httpManager from "../../managers/httpManager";
 
 const Container = styled.div`
   display: flex;
@@ -68,24 +66,16 @@ const Heading = styled.span`
   }, []);
 
   const responseGoogle = async (response) => {
-    if (response && response.credential && typeof response.credential === 'string') {
-      const decodedToken = jwtDecode(response.credential);
-      setUserInfo(decodedToken);
-      //cookieManager.setUserInfo(decodedToken);
-      console.log("response", decodedToken);
- 
-      try {
-        await axios.post(`${API_BASE_URL}/user`, {
-          name: decodedToken.name,
-          email: decodedToken.email,
-          profilePic: decodedToken.picture
-        });
-      } catch (error) {
-        console.error('API call failed:', error);
-      }
-    } else {
-      console.error('Invalid response or credential:', response); 
-    } 
+    const decodedToken = jwtDecode(response.credential);      
+    await httpManager.createUser ({
+      name: decodedToken.name,
+      email: decodedToken.email,
+      profilePic: decodedToken.picture
+  });
+
+    setUserInfo(decodedToken);
+    cookieManager.setUserInfo(decodedToken);
+
   };
 
 

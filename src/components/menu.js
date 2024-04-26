@@ -1,5 +1,8 @@
+import React, {  useState } from "react";
 import styled from "styled-components";
 import { menuOptions } from "../menuOptions";
+import httpManager from "../managers/httpManager";
+import utility from "../utility";
 
 const Container = styled.div`
   display: flex;
@@ -97,7 +100,10 @@ const ProfileIcon = styled(ProfileImage)`
   margin-bottom: 15px;
   object-fit: cover;
 `;
-
+const SearchResults = styled.div`
+  width: 100%;
+  height: 100px;
+`;
 
 const FriendComponent = (props) => {
     const { userData,setChat } = props;
@@ -114,6 +120,19 @@ const FriendComponent = (props) => {
 };
 function Menu(props) {
   const{picture}=props
+  const [searchString, setSearchString] = useState("");
+  const [searchResult, setSearchResult] = useState("");
+  //const [contactList, setContactList] = useState([]);
+
+  const onSearchTextChanged = async (searchText) => {
+    setSearchString(searchText);
+    if (!utility.validateEmail(searchText)) return;
+
+    const userData = await httpManager.searchUser(searchText);
+    if (userData.data?.success) setSearchResult(userData.data.responseData);
+  };
+
+
   return (
     <Container>
       <ProfileInfoDiv>
@@ -126,9 +145,16 @@ function Menu(props) {
           <SearchIcon src={"/search-icon.svg"} />
           <SearchInput
             placeholder="Search or start new chat"
+            value={searchString}
+            onChange={(e) => onSearchTextChanged(e.target.value)}
           />
         </SearchContainer>
       </SearchBox>
+      {searchResult && (
+        <SearchResults>
+          <FriendComponent userData={searchResult} setChat={props.setChat} />
+        </SearchResults>
+      )}
       {menuOptions.map((userData, index) => (
         <FriendComponent
         key={index}

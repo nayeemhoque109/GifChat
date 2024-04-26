@@ -18,7 +18,7 @@ module.exports = {
         .of(
           yup.object().shape({
             name: yup.string().required(),
-            _id: yup.string().required(),
+            email: yup.string().required(),
             profilePic: yup.string(),
           }),
         ).length(2)

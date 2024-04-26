@@ -67,7 +67,7 @@ const Pages =(props)=>{
   const { selectedChat} = props;
   const [text, setText] = useState("");
   const [pickerVisible, togglePicker] = useState(false);
-  const [messageList, setMessageList] = useState(messagesList);
+  const [messageList, setMessageList] = useState();
 
   const onEmojiClick = (event, emojiObj) => {
     console.log(emojiObj.emoji); // Add this line
