@@ -1,9 +1,13 @@
+//https://www.npmjs.com/package/@react-oauth/google
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 import App from "../../App";
-//import cookieManager from "../../managers/cookieManager";
+import cookieManager from "../../managers/cookieManager";
+import axios from "axios";
 //import httpManager from "../../managers/httpManager";
+const API_BASE_URL = "http://localhost:3001";
 
 const Container = styled.div`
   display: flex;
@@ -54,32 +58,36 @@ const Heading = styled.span`
 `;
 
 
-
-/* const LoginComponent = () => {
+  const LoginComponent = () => {
   const [userInfo, setUserInfo] = useState();
 
   useEffect(() => {
     const userData = cookieManager.getUserInfo();
+    console.log("===",userData);
     if (userData) setUserInfo(userData);
   }, []);
 
   const responseGoogle = async (response) => {
-    await httpManager.createUser({
-      email: response.profileObj.email,
-      name: response.profileObj.name,
-      profilePic: response.profileObj.imageUrl,
-    });
-    setUserInfo(response.profileObj);
-    cookieManager.setUserInfo(response.profileObj);
+    if (response && response.credential && typeof response.credential === 'string') {
+      const decodedToken = jwtDecode(response.credential);
+      setUserInfo(decodedToken);
+      //cookieManager.setUserInfo(decodedToken);
+      console.log("response", decodedToken);
+ 
+      try {
+        await axios.post(`${API_BASE_URL}/user`, {
+          name: decodedToken.name,
+          email: decodedToken.email,
+          profilePic: decodedToken.picture
+        });
+      } catch (error) {
+        console.error('API call failed:', error);
+      }
+    } else {
+      console.error('Invalid response or credential:', response); 
+    } 
   };
- */
 
-  const LoginComponent = () => {
-    const [userInfo, setUserInfo] = useState();
-    
-    const responseGoogle = (responseData) => {
-        console.log(responseData.profileObj);
-    }
 
 
   return (

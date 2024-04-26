@@ -37,11 +37,11 @@ const ChatPlaceholder = styled.img`
 
 
 function App(props) {
-
+  const { userInfo } = props;
   const [selectedChat, setChat] = useState();
   return (
     <Container>
-      <Menu setChat={setChat} />
+      <Menu setChat={setChat} picture={userInfo.picture} />
       {selectedChat ? (
       <Pages selectedChat={selectedChat} />
        ):(

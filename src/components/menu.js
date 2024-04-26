@@ -113,11 +113,12 @@ const FriendComponent = (props) => {
     );
 };
 function Menu(props) {
+  const{picture}=props
   return (
     <Container>
       <ProfileInfoDiv>
         <ProfileImage
-          src="/"
+          src={picture}
         />
       </ProfileInfoDiv>
       <SearchBox>
@@ -128,9 +129,11 @@ function Menu(props) {
           />
         </SearchContainer>
       </SearchBox>
-      {menuOptions.map((userData) => (
+      {menuOptions.map((userData, index) => (
         <FriendComponent
-          userData={userData} setChat={props.setChat}
+        key={index}
+        userData={userData} 
+        setChat={props.setChat}
         />
       ))}
     </Container>

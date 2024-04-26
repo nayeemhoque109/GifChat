@@ -11,14 +11,6 @@ module.exports = {
     await validate(schema, req.body, res, next);
   },
 
-  validateLogin: async (req, res, next) => {
-    const schema = yup.object().shape({
-      email: yup.string().required(),
-      password: yup.string(),
-    });
-    await validate(schema, req.body, res, next);
-  },
-
   validateCreateChannel: async (req, res, next) => {
     const schema = yup.object().shape({
       channelUsers: yup

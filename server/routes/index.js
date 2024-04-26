@@ -9,8 +9,6 @@ const applyRoutes = (app) => {
 
     app.post('/user', Validation.validateCreateUser,  Controller.createUser);
 
-    app.post('/login', Validation.validateloginUser,  Controller.loginUser);
-
     app.get('/search-user', Validation.validateSearchUser, Controller.searchUser);
 
     app.post('/channel', Validation.validateCreateChannel, Controller.createChannel);

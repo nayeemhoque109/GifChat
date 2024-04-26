@@ -1,5 +1,5 @@
-import UserModel from "../models/user";
-import ChannelModel from "../models/channel";
+import UserModel from "../models/users";
+import ChannelModel from "../models/channels";
 import { sendResponse, sendError } from "../../utility";
 
 module.exports = {
@@ -18,6 +18,7 @@ module.exports = {
       );
 
     const userObj = new UserModel(req.body);
+    console.log("userObj", userObj);
     await userObj.saveData();
     sendResponse(res, userObj, "User created successfully", true, 200);
   },
