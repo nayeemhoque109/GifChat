@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { menuOptions } from "../menuOptions";
 import httpManager from "../managers/httpManager";
@@ -106,23 +106,52 @@ const SearchResults = styled.div`
 `;
 
 const FriendComponent = (props) => {
-    const { userData,setChat } = props;
+  const { userData,setChat, userInfo } = props;
+  const [searchResult, setSearchResult] = useState();
+
+  const otherUser =
+    userData.channelUsers?.find(
+      (userObj) => userObj.email !== userInfo.email
+    ) || userData;
+
+  const lastMessage =
+    userData.messages && userData.messages.length
+      ? userData.messages[userData.messages.length - 1]
+      : {};
+      
     return (
-        <Options onClick={()=>setChat(userData)}>
-            <ProfileIcon src="/profile-icon.svg" />
-            <OptionsInfo>
-            <OptionsName>{userData.name}</OptionsName>
-            <MessageText>{userData?.lastText}</MessageText>
-            </OptionsInfo>
-            <MessageTime>{userData?.lastTextTime}</MessageTime>
+        <Options onClick={() => setChat({ channelData: userData, otherUser })}>
+            <ProfileIcon src={otherUser?.profilePic} />
+      <OptionsInfo>
+        <OptionsName>{otherUser?.name}</OptionsName>
+        <MessageText>{lastMessage?.text}</MessageText>
+      </OptionsInfo>
+      <MessageTime>
+        {" "}
+        {lastMessage && new Date(lastMessage?.addedOn).getUTCDate()}
+      </MessageTime>
         </Options>
     );
 };
 function Menu(props) {
-  const{picture}=props
+  const{userInfo, refreshContactList}=props
   const [searchString, setSearchString] = useState("");
   const [searchResult, setSearchResult] = useState("");
-  //const [contactList, setContactList] = useState([]);
+  const [menuOptions, setMenuOptions] = useState([]);
+
+  const refreshContacts = async () => {
+    const contactListData = await httpManager.getChannelList(userInfo.email);
+    setMenuOptions(contactListData.data.responseData);
+    setSearchString();
+    setSearchResult();
+  };
+
+  useEffect(() => {
+    refreshContacts();
+  }, [refreshContactList]);
+
+
+
 
   const onSearchTextChanged = async (searchText) => {
     setSearchString(searchText);
@@ -137,7 +166,7 @@ function Menu(props) {
     <Container>
       <ProfileInfoDiv>
         <ProfileImage
-          src={picture}
+          src={userInfo.picture}
         />
       </ProfileInfoDiv>
       <SearchBox>
@@ -155,9 +184,9 @@ function Menu(props) {
           <FriendComponent userData={searchResult} setChat={props.setChat} />
         </SearchResults>
       )}
-      {menuOptions.map((userData, index) => (
+      {menuOptions.map((userData) => (
         <FriendComponent
-        key={index}
+        userInfo={userInfo}
         userData={userData} 
         setChat={props.setChat}
         />

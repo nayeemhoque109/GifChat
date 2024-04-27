@@ -66,7 +66,7 @@ module.exports = {
   getChannelList: async (req, res) => {
     const requestData = req.query;
     const channelList = await ChannelModel.findData({
-      "channelUsers._id": requestData.userId,
+      "channelUsers.email": requestData.email,
     });
     sendResponse(res, channelList, "Channel list fetched", true, 200);
   },

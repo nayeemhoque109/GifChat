@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 //https://www.npmjs.com/package/emoji-picker-react
 import Picker from "emoji-picker-react";
 import { SearchContainer, SearchInput } from "./menu";
 import { messagesList } from "../menuOptions";
+import httpManager from "../managers/httpManager";
 
 
 const Container = styled.div`
@@ -27,6 +28,10 @@ const ProfileImage = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 50%;
+`;
+const ContactName = styled.span`
+  font-size: 16px;
+  color: black;
 `;
 const ChatBox = styled.div`
   display: flex;
@@ -64,10 +69,14 @@ const EmojiImage = styled.img`
   cursor: pointer;
 `;
 const Pages =(props)=>{
-  const { selectedChat} = props;
+  const { selectedChat, userInfo, refreshContactList } = props;
   const [text, setText] = useState("");
   const [pickerVisible, togglePicker] = useState(false);
   const [messageList, setMessageList] = useState();
+
+  useEffect(() => {
+    setMessageList(selectedChat.channelData.messages);
+  }, [selectedChat]);
 
   const onEmojiClick = (event, emojiObj) => {
     console.log(emojiObj.emoji); // Add this line
@@ -76,31 +85,54 @@ const Pages =(props)=>{
       
   };
 
-  const onEnterPress = (event) => {
+  const onEnterPress = async (event) => {
+    let channelId = selectedChat.channelData._id;
     if (event.key === "Enter") {
+      if (!messageList || !messageList.length) {
+        const channelUsers = [
+          {
+            email: userInfo.email,
+            name: userInfo.name,
+            profilePic: userInfo.picture,
+          },
+          {
+            email: selectedChat.otherUser.email,
+            name: selectedChat.otherUser.name,
+            profilePic: selectedChat.otherUser.profilePic,
+          },
+        ];
+        const channelResponse = await httpManager.createChannel({
+          channelUsers,
+        });
+        channelId = channelResponse.data.responseData._id;
+        
+      }
       const messages = [...messageList];
-      messages.push({
-        ID: 0,
-        messageType: "TEXT",
+      const msgReqData = {
         text,
-        senderID: 0,
-        addedOn: ""
+        senderEmail: userInfo.email,
+        addedOn: new Date().getTime(),
+      };
+      const messageResponse = await httpManager.sendMessage({
+        channelId,
+        messages: msgReqData,
       });
+      messages.push(msgReqData);
       setMessageList(messages);
       setText("");
+      refreshContactList();
     }
-
   };
     return (
         <Container>
           <ProfileHeader>
-          <ProfileImage src={selectedChat.profilePic} />
-          {selectedChat.name}
+          <ProfileImage src={selectedChat.otherUser.profilePic} />
+          <ContactName>{selectedChat.otherUser.name}</ContactName>
       </ProfileHeader>
           <MessageContainer>
-            {messagesList.map((messageData) => (
-                <MessageDiv isYours={messageData.senderID === 0}>
-                <Message isYours={messageData.senderID === 0}> 
+            {messagesList?.map((messageData) => (
+                <MessageDiv isYours={messageData.senderEmail === userInfo.email}>
+                <Message isYours={messageData.senderEmail === userInfo.email}> 
                     {messageData.text}
                  </Message>
                 </MessageDiv>

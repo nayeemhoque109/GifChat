@@ -39,11 +39,23 @@ const ChatPlaceholder = styled.img`
 function App(props) {
   const { userInfo } = props;
   const [selectedChat, setChat] = useState();
+  const [refreshContactList, toggleRefreshContactList] = useState(false);
+
   return (
     <Container>
-      <Menu setChat={setChat} picture={userInfo.picture} />
+      <Menu setChat={setChat}
+       userInfo={userInfo}
+       refreshContactList={refreshContactList} 
+       />
       {selectedChat ? (
-      <Pages selectedChat={selectedChat} />
+      <Pages 
+      selectedChat={selectedChat} 
+      userInfo={userInfo} 
+      refreshContactList={() => 
+        toggleRefreshContactList(!refreshContactList)
+
+        }
+      />
        ):(
          <Placeholder>
         <ChatPlaceholder src = "/logo.png"/>fgwefge

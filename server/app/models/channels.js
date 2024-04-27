@@ -5,9 +5,7 @@ const channelSchema = new mongoose.Schema({
     {
         name: { type: String, default: '' },
         email: { type: String, default: '' },
-        password: { type: String, default: '' },
         profilePic: { type: String, default: '' },
-        addedOn: { type: Number, default: Date.now() }
     },
   ],
   messages: [
