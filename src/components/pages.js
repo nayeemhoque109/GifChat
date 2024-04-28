@@ -98,13 +98,14 @@ const Pages =(props)=>{
           {
             email: selectedChat.otherUser.email,
             name: selectedChat.otherUser.name,
-            profilePic: selectedChat.otherUser.profilePic,
+            profilePic: selectedChat.otherUser.picture,
           },
         ];
         const channelResponse = await httpManager.createChannel({
           channelUsers,
         });
         channelId = channelResponse.data.responseData._id;
+        refreshContactList();
         
       }
       const messages = [...messageList];
@@ -120,7 +121,7 @@ const Pages =(props)=>{
       messages.push(msgReqData);
       setMessageList(messages);
       setText("");
-      refreshContactList();
+      
     }
   };
     return (
@@ -130,7 +131,7 @@ const Pages =(props)=>{
           <ContactName>{selectedChat.otherUser.name}</ContactName>
       </ProfileHeader>
           <MessageContainer>
-            {messagesList?.map((messageData) => (
+            {messageList?.map((messageData) => (
                 <MessageDiv isYours={messageData.senderEmail === userInfo.email}>
                 <Message isYours={messageData.senderEmail === userInfo.email}> 
                     {messageData.text}

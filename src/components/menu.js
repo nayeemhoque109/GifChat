@@ -4,6 +4,7 @@ import { menuOptions } from "../menuOptions";
 import httpManager from "../managers/httpManager";
 import utility from "../utility";
 
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,7 +46,15 @@ export const SearchInput = styled.input`
   border: none;
   font-size: 15px;
 `;
-
+const ProfileName = styled.div`
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: 15px;
+  margin-left: 10px;
+  background: #ededed;
+  color: black;
+`;
 const Options = styled.div`
   display: flex;
   flex-direction: row;
@@ -133,8 +142,11 @@ const FriendComponent = (props) => {
         </Options>
     );
 };
+
+
+
 function Menu(props) {
-  const{userInfo, refreshContactList}=props
+  const { userInfo, refreshContactList,handleButtonClick,handleLogout } = props;
   const [searchString, setSearchString] = useState("");
   const [searchResult, setSearchResult] = useState("");
   const [menuOptions, setMenuOptions] = useState([]);
@@ -164,10 +176,14 @@ function Menu(props) {
 
   return (
     <Container>
+
       <ProfileInfoDiv>
         <ProfileImage
           src={userInfo.picture}
         />
+        <button onClick={handleLogout}>Logout</button>
+
+        <ProfileName>{userInfo.name}</ProfileName>
       </ProfileInfoDiv>
       <SearchBox>
         <SearchContainer>
@@ -184,6 +200,7 @@ function Menu(props) {
           <FriendComponent userData={searchResult} setChat={props.setChat} />
         </SearchResults>
       )}
+      <button onClick={handleButtonClick}>Create GIF</button>
       {menuOptions.map((userData) => (
         <FriendComponent
         userInfo={userInfo}
