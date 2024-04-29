@@ -22,6 +22,7 @@ const sendMessage = async (requestData) => {
   return await axios.post(`${API_BASE_URL}/message`, requestData);
 };
 
+
 export const httpManager = {
   createUser,
   searchUser,

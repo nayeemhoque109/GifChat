@@ -1,5 +1,11 @@
+
 import * as Controller from "../app/controllers";
 import * as Validation from "../utility/validations";
+const express = require('express');
+const fs = require('fs');
+const app = express();
+
+app.use(express.json());
 
 const applyRoutes = (app) => {
 
@@ -16,6 +22,8 @@ const applyRoutes = (app) => {
     app.get('/channel-list', Validation.validateGetChannelList, Controller.getChannelList);
 
     app.post('/message', Validation.validateAddMessage, Controller.sendMessage);
+
+    
 };
 
 export default applyRoutes;

@@ -181,9 +181,8 @@ function Menu(props) {
         <ProfileImage
           src={userInfo.picture}
         />
-        <button onClick={handleLogout}>Logout</button>
-
         <ProfileName>{userInfo.name}</ProfileName>
+        <button onClick={handleLogout}>Logout</button>
       </ProfileInfoDiv>
       <SearchBox>
         <SearchContainer>
