@@ -5,7 +5,7 @@ const channelSchema = new mongoose.Schema({
     {
         name: { type: String, default: '' },
         email: { type: String, default: '' },
-        profilePic: { type: String, default: '' },
+        picture: { type: String, default: '' },
     },
   ],
   messages: [
@@ -39,4 +39,4 @@ channelSchema.static({
     });
   },
 });
-export default mongoose.model("wc-channel", channelSchema);
+module.exports = mongoose.model("wc-channel", channelSchema);

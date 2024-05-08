@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import cors from 'cors'
+import express from 'express';
 
 const configureExpressApp = function (app) {
     // parse application/x-www-form-urlencoded
@@ -11,6 +12,10 @@ const configureExpressApp = function (app) {
     app.use(compression(9))
     // CORS
     app.use(cors())
+    // serve static files
+    app.use('/uploads', express.static('uploads'));
 };
 
 export default configureExpressApp;
+
+

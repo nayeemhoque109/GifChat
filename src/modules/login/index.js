@@ -70,7 +70,7 @@ const Heading = styled.span`
     await httpManager.createUser ({
       name: decodedToken.name,
       email: decodedToken.email,
-      profilePic: decodedToken.picture
+      picture: decodedToken.picture
   });
 
     setUserInfo(decodedToken);

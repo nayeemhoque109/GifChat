@@ -6,7 +6,7 @@ module.exports = {
     const schema = yup.object().shape({
       name: yup.string().required(),
       email: yup.string().required(),
-      profilePic: yup.string(),
+      picture: yup.string(),
     });
     await validate(schema, req.body, res, next);
   },
@@ -19,7 +19,7 @@ module.exports = {
           yup.object().shape({
             name: yup.string().required(),
             email: yup.string().required(),
-            profilePic: yup.string(),
+            picture: yup.string(),
           }),
         ).length(2)
         .required(),
@@ -47,6 +47,7 @@ module.exports = {
       messages: yup.object().shape({
         senderEmail: yup.string().required(),
         text: yup.string().required(),
+
       }),
     });
     await validate(schema, req.body, res, next);

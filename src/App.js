@@ -60,20 +60,25 @@ function App(props) {
   const [refreshContactList, toggleRefreshContactList] = useState(false);
   const [uploadedImage, setUploadedImage] = useState();
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+    const handleImageUpload = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
 
-    reader.onloadend = () => {
-      setUploadedImage(reader.result);
+      reader.onloadend = () => {
+        // Create a new Blob object from the result
+        const blob = new Blob([new Uint8Array(reader.result)], { type: file.type });
+        // Create a URL representing the Blob
+        const url = URL.createObjectURL(blob);
+        setUploadedImage(url);
+      };
+
+      if (file) {
+        // Read the file as a Blob
+        reader.readAsArrayBuffer(file);
+      } else {
+        setUploadedImage(null);
+      }
     };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    } else {
-      setUploadedImage(null);
-    }
-  };
 
 
 
@@ -111,8 +116,7 @@ function App(props) {
           <h2>To create a GIF return back to the application</h2>
           <h3>Upload your GIF to view the result</h3>
           <FileInput type="file" accept="image/gif" onChange={handleImageUpload} />
-          {uploadedImage && <DisplayedImage src={uploadedImage} />}
-          <ChatPlaceholder src="/logo.png" />
+          {uploadedImage && <DisplayedImage src={uploadedImage} />}          <ChatPlaceholder src="/logo.png" />
         </Placeholder>
         )}
 

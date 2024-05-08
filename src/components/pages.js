@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 //https://www.npmjs.com/package/emoji-picker-react
-import Picker from "emoji-picker-react";
 import { SearchContainer, SearchInput } from "./menu";
-import { messagesList } from "../menuOptions";
 import httpManager from "../managers/httpManager";
+
+
 
 
 const Container = styled.div`
@@ -60,6 +60,9 @@ const Message = styled.div`
   max-width: 50%;
   color: #303030;
   font-size: 14px;
+  img {
+    max-width: 100%;
+  }
 `;
 const EmojiImage = styled.img`
   width: 28px;
@@ -72,7 +75,9 @@ const Pages =(props)=>{
   const { selectedChat, userInfo, refreshContactList } = props;
   const [text, setText] = useState("");
   const [pickerVisible, togglePicker] = useState(false);
-  const [messageList, setMessageList] = useState();
+  const [messageList, setMessageList] = useState([]);
+  const [uploadedImage, setUploadedImage] = useState(null);
+
 
   useEffect(() => {
     setMessageList(selectedChat.channelData.messages);
@@ -85,6 +90,26 @@ const Pages =(props)=>{
       
   };
 
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch('http://localhost:3001/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    console.log(data.path);
+    setUploadedImage(data.path);
+  };
+
+  function isBlobURL(str) {
+    return str.startsWith('blob:');
+  }
+  
+
   const onEnterPress = async (event) => {
     let channelId = selectedChat.channelData._id;
     if (event.key === "Enter") {
@@ -93,24 +118,23 @@ const Pages =(props)=>{
           {
             email: userInfo.email,
             name: userInfo.name,
-            profilePic: userInfo.picture,
+            picture: userInfo.picture,
           },
           {
             email: selectedChat.otherUser.email,
             name: selectedChat.otherUser.name,
-            profilePic: selectedChat.otherUser.picture,
+            picture: selectedChat.otherUser.picture,
           },
         ];
         const channelResponse = await httpManager.createChannel({
           channelUsers,
         });
         channelId = channelResponse.data.responseData._id;
-        refreshContactList();
         
       }
       const messages = [...messageList];
       const msgReqData = {
-        text,
+        text: uploadedImage || text,
         senderEmail: userInfo.email,
         addedOn: new Date().getTime(),
       };
@@ -121,36 +145,33 @@ const Pages =(props)=>{
       messages.push(msgReqData);
       setMessageList(messages);
       setText("");
+      refreshContactList();
+
       
     }
   };
     return (
         <Container>
           <ProfileHeader>
-          <ProfileImage src={selectedChat.otherUser.profilePic} />
+          <ProfileImage src={selectedChat.otherUser.picture} />
           <ContactName>{selectedChat.otherUser.name}</ContactName>
       </ProfileHeader>
-          <MessageContainer>
-            {messageList?.map((messageData) => (
-                <MessageDiv isYours={messageData.senderEmail === userInfo.email}>
-                <Message isYours={messageData.senderEmail === userInfo.email}> 
-                    {messageData.text}
-                 </Message>
-                </MessageDiv>
-            ))}
-          </MessageContainer>
+      <MessageContainer>
+        {messageList?.map((messageData) => (
+          <MessageDiv isYours={messageData.senderEmail === userInfo.email}>
+            <Message isYours={messageData.senderEmail === userInfo.email}>
+              {messageData.text.startsWith('/uploads/') ? (
+          <img src={`http://localhost:3001${messageData.text}`} alt="Uploaded content" />
+          ) : (
+                messageData.text
+              )}
+            </Message>
+          </MessageDiv>
+        ))}
+      </MessageContainer>
           <ChatBox>
             <SearchContainer>
-            {pickerVisible && (
-              <Picker
-                pickerStyle={{ position: "absolute", bottom: "60px" }}
-                onEmojiClick={onEmojiClick}
-              />
-            )}
-            <EmojiImage
-              src={"/data.svg"}
-              onClick={() => togglePicker(!pickerVisible)}
-            />
+              <input type="file" accept="image/gif" onChange={handleImageUpload} />
               <SearchInput
                 placeholder="Type a message"
                 value={text}

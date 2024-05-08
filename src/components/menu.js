@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { menuOptions } from "../menuOptions";
 import httpManager from "../managers/httpManager";
 import utility from "../utility";
 
@@ -130,7 +129,7 @@ const FriendComponent = (props) => {
       
     return (
         <Options onClick={() => setChat({ channelData: userData, otherUser })}>
-            <ProfileIcon src={otherUser?.profilePic} />
+            <ProfileIcon src={otherUser?.picture} />
       <OptionsInfo>
         <OptionsName>{otherUser?.name}</OptionsName>
         <MessageText>{lastMessage?.text}</MessageText>

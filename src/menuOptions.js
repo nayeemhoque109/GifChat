@@ -1,42 +1,20 @@
-export const menuOptions = [
-    {
-      id: 1,
-      name: "Dashboard",
-      profilePic: "/",
-      lastText: "",
-      lastTextTime: "",
-    },
-    {
-        id: 2,
-        name: "GIF maker",
-        profilePic: "/",
-        lastText: "",
-        lastTextTime: "",
-      },
-    {
-      id: 3,
-      name: "person",
-      profilePic: "",
-      lastText: `test`,
-      lastTextTime: "12:45 PM",
-    }
 
-  ];
   export const messagesList = [
     {
       id: 2,
       messageType: "TEXT",
-      text: "Hey Man 😁",
-      senderID: 0,
+      text: "Hi ",
+      senderID: 1,
       addedOn: "12:00 PM",
     },
     {
-        id: 2,
+        id: 1,
         messageType: "TEXT",
-        text: "Hey, What's up?",
-        senderID: 1,
+        text: "Hi",
+        senderID: 2,
         addedOn: "12:01 PM",
       },
+
 
  
   ];
