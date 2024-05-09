@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-//https://www.npmjs.com/package/emoji-picker-react
 import { SearchContainer, SearchInput } from "./menu";
 import httpManager from "../managers/httpManager";
-
-
 
 
 const Container = styled.div`
@@ -64,17 +61,10 @@ const Message = styled.div`
     max-width: 100%;
   }
 `;
-const EmojiImage = styled.img`
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  opacity: 0.4;
-  cursor: pointer;
-`;
+
 const Pages =(props)=>{
   const { selectedChat, userInfo, refreshContactList } = props;
   const [text, setText] = useState("");
-  const [pickerVisible, togglePicker] = useState(false);
   const [messageList, setMessageList] = useState([]);
   const [uploadedImage, setUploadedImage] = useState(null);
 
@@ -83,12 +73,7 @@ const Pages =(props)=>{
     setMessageList(selectedChat.channelData.messages);
   }, [selectedChat]);
 
-  const onEmojiClick = (event, emojiObj) => {
-    console.log(emojiObj.emoji); // Add this line
-    setText(text + emojiObj.emoji);
-    togglePicker(false);
-      
-  };
+
 
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
@@ -105,10 +90,7 @@ const Pages =(props)=>{
     setUploadedImage(data.path);
   };
 
-  function isBlobURL(str) {
-    return str.startsWith('blob:');
-  }
-  
+
 
   const onEnterPress = async (event) => {
     let channelId = selectedChat.channelData._id;
