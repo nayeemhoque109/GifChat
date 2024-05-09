@@ -62,11 +62,21 @@ const Message = styled.div`
   }
 `;
 
+const AttachButton = styled.img`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  opacity: 0.4;
+  cursor: pointer;
+`;
+
 const Pages =(props)=>{
   const { selectedChat, userInfo, refreshContactList } = props;
   const [text, setText] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [uploadError, setUploadError] = useState(null);
+
 
 
   useEffect(() => {
@@ -77,6 +87,13 @@ const Pages =(props)=>{
 
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
+    const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+
+    if (file && !validImageTypes.includes(file.type)) {
+      alert('Invalid file type. Please upload a GIF, JPEG, or PNG image.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('file', file);
 
@@ -153,11 +170,14 @@ const Pages =(props)=>{
       </MessageContainer>
           <ChatBox>
             <SearchContainer>
-              <input type="file" accept="image/gif" onChange={handleImageUpload} />
+              <input type="file" accept="image/gif" id="fileUpload" onChange={handleImageUpload} style={{ display: 'none' }} />
+              <label htmlFor="fileUpload">
+                <AttachButton src={"data.jpg"}/>
+              </label>
               <SearchInput
-                placeholder="Type a message"
+                placeholder="Type a message or upload an image/ GIF and press enter"
                 value={text}
-                onKeyDown ={onEnterPress}
+                onKeyDown={onEnterPress}
                 onChange={(e) => setText(e.target.value)}
               />
             </SearchContainer>

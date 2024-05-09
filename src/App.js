@@ -53,12 +53,44 @@ const ChatPlaceholder = styled.img`
   object-fit: contain;
 `;
 
+const MenuContainer = styled.div`
+  display: ${props => props.isOpen ? 'block' : 'none'};
+  flex: 1;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+`;
+
+const ContentContainer = styled.div`
+  display: ${props => props.isOpen ? 'none' : 'block'};
+  flex: 1;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+`;
+
+const BackButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
 
 function App(props) {
   const { userInfo } = props;
   const [selectedChat, setChat] = useState();
   const [refreshContactList, toggleRefreshContactList] = useState(false);
   const [uploadedImage, setUploadedImage] = useState();
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
+
+  <button onClick={() => setIsMenuOpen(true)}>Open Menu</button>
 
     const handleImageUpload = (event) => {
       const file = event.target.files[0];
@@ -84,6 +116,8 @@ function App(props) {
 
   const handleButtonClick = () => {
     setChat(null);
+    setIsMenuOpen(false);
+
   };
 
 
@@ -95,33 +129,37 @@ function App(props) {
 
   return (
     <Container>
-      <Menu setChat={setChat}
-       userInfo={userInfo}
-       refreshContactList={refreshContactList} 
-       handleButtonClick={handleButtonClick}
-       handleLogout={handleLogout}
-       />
-       
-      {selectedChat ? (
-      <Pages 
-      selectedChat={selectedChat} 
-      userInfo={userInfo} 
-      refreshContactList={() => 
-        toggleRefreshContactList(!refreshContactList)
-
-        }
+    <MenuContainer isOpen={isMenuOpen}>
+      <Menu 
+        setChat={(chat) => { setChat(chat); setIsMenuOpen(false); }}
+        userInfo={userInfo}
+        refreshContactList={refreshContactList} 
+        handleButtonClick={handleButtonClick}
+        handleLogout={handleLogout}
       />
-       ):(
+    </MenuContainer>
+    <ContentContainer isOpen={isMenuOpen}>
+      <BackButton onClick={() => setIsMenuOpen(true)}>Back</BackButton>
+      {selectedChat ? (
+        <Pages 
+          selectedChat={selectedChat} 
+          userInfo={userInfo} 
+          refreshContactList={() => {
+            toggleRefreshContactList(!refreshContactList);
+            setIsMenuOpen(true);
+          }}
+        />
+      ) : (
         <Placeholder>
           <h2>To create a GIF return back to the application</h2>
           <h3>Upload your GIF to view the result</h3>
           <FileInput type="file" accept="image/gif" onChange={handleImageUpload} />
-          {uploadedImage && <DisplayedImage src={uploadedImage} />}          <ChatPlaceholder src="/logo.png" />
+          {uploadedImage && <DisplayedImage src={uploadedImage} />}
+          <ChatPlaceholder src="/logo.png" />
         </Placeholder>
-        )}
-
-    </Container>
-
+      )}
+    </ContentContainer>
+  </Container>
   );
 }
 
