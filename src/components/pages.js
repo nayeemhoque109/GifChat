@@ -54,7 +54,7 @@ const Message = styled.div`
   background: ${(props) => (props.isYours ? "#daf8cb" : "white")};
   padding: 8px 10px;
   border-radius: 4px;
-  max-width: 50%;
+  max-width: 70%;
   color: #303030;
   font-size: 14px;
   img {
@@ -70,18 +70,32 @@ const AttachButton = styled.img`
   cursor: pointer;
 `;
 
+const SendButton = styled.button`
+  background: #4CAF50;
+  border: none;
+  color: white;
+  padding: 7px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  margin: 4px 2px;
+  cursor: pointer;
+`;
+
+
 const Pages =(props)=>{
   const { selectedChat, userInfo, refreshContactList } = props;
   const [text, setText] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadError, setUploadError] = useState(null);
-
-
+  
 
   useEffect(() => {
     setMessageList(selectedChat.channelData.messages);
   }, [selectedChat]);
+
 
 
 
@@ -92,6 +106,10 @@ const Pages =(props)=>{
     if (file && !validImageTypes.includes(file.type)) {
       alert('Invalid file type. Please upload a GIF, JPEG, or PNG image.');
       return;
+    }
+
+    if (file && validImageTypes.includes(file.type)) {
+      alert('File is valid. Press Enter or Send.');
     }
 
     const formData = new FormData();
@@ -106,9 +124,6 @@ const Pages =(props)=>{
     console.log(data.path);
     setUploadedImage(data.path);
   };
-
-
-
   const onEnterPress = async (event) => {
     let channelId = selectedChat.channelData._id;
     if (event.key === "Enter") {
@@ -149,6 +164,43 @@ const Pages =(props)=>{
       
     }
   };
+
+  const onSendClick = async () => {
+    let channelId = selectedChat.channelData._id;
+    if (!messageList || !messageList.length) {
+      const channelUsers = [
+        {
+          email: userInfo.email,
+          name: userInfo.name,
+          picture: userInfo.picture,
+        },
+        {
+          email: selectedChat.otherUser.email,
+          name: selectedChat.otherUser.name,
+          picture: selectedChat.otherUser.picture,
+        },
+      ];
+      const channelResponse = await httpManager.createChannel({
+        channelUsers,
+      });
+      channelId = channelResponse.data.responseData._id;
+    }
+    const messages = [...messageList];
+    const msgReqData = {
+      text: uploadedImage || text,
+      senderEmail: userInfo.email,
+      addedOn: new Date().getTime(),
+    };
+    const messageResponse = await httpManager.sendMessage({
+      channelId,
+      messages: msgReqData,
+    });
+    messages.push(msgReqData);
+    setMessageList(messages);
+    setText("");
+    refreshContactList();
+  };
+  
     return (
         <Container>
           <ProfileHeader>
@@ -168,20 +220,21 @@ const Pages =(props)=>{
           </MessageDiv>
         ))}
       </MessageContainer>
-          <ChatBox>
-            <SearchContainer>
-              <input type="file" accept="image/gif" id="fileUpload" onChange={handleImageUpload} style={{ display: 'none' }} />
-              <label htmlFor="fileUpload">
-                <AttachButton src={"data.jpg"}/>
-              </label>
-              <SearchInput
-                placeholder="Type a message or upload an image/ GIF and press enter"
-                value={text}
-                onKeyDown={onEnterPress}
-                onChange={(e) => setText(e.target.value)}
-              />
-            </SearchContainer>
-          </ChatBox>
+      <ChatBox>
+        <SearchContainer>
+          <input type="file" accept="image/gif" id="fileUpload" onChange={handleImageUpload} style={{ display: 'none' }} />
+          <label htmlFor="fileUpload">
+            <AttachButton src={"data.jpg"}/>
+          </label>
+          <SearchInput
+            placeholder="Type a message"
+            value={text}
+            onKeyDown={onEnterPress}
+            onChange={(e) => setText(e.target.value)}
+          />
+          <SendButton onClick={onSendClick}>Send</SendButton>
+        </SearchContainer>
+      </ChatBox>
         </Container>
       );
     }

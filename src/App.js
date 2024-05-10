@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Menu from "./components/menu";
 import Pages from "./components/pages";
@@ -11,8 +11,8 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-
-  `
+  overflow: hidden;
+`;
 
   const Placeholder = styled.div`
   flex: 3;
@@ -64,7 +64,7 @@ const MenuContainer = styled.div`
 
 const ContentContainer = styled.div`
   display: ${props => props.isOpen ? 'none' : 'block'};
-  flex: 1;
+  flex: 2;
 
   @media (min-width: 768px) {
     display: block;
@@ -90,27 +90,35 @@ function App(props) {
   const [uploadedImage, setUploadedImage] = useState();
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
+  useEffect(() => {
+  window.scrollTo(0, 0); // scroll to top
+  document.body.style.overflow = 'hidden'; // prevent scrolling
+  return () => {
+    document.body.style.overflow = 'unset'; // allow scrolling when component unmounts
+  };
+}, []); 
+ 
   <button onClick={() => setIsMenuOpen(true)}>Open Menu</button>
 
-    const handleImageUpload = (event) => {
-      const file = event.target.files[0];
-      const reader = new FileReader();
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
-      reader.onloadend = () => {
-        // Create a new Blob object from the result
-        const blob = new Blob([new Uint8Array(reader.result)], { type: file.type });
-        // Create a URL representing the Blob
-        const url = URL.createObjectURL(blob);
-        setUploadedImage(url);
-      };
-
-      if (file) {
-        // Read the file as a Blob
-        reader.readAsArrayBuffer(file);
-      } else {
-        setUploadedImage(null);
-      }
+    reader.onloadend = () => {
+      // Create a new Blob object from the result
+      const blob = new Blob([new Uint8Array(reader.result)], { type: file.type });
+      // Create a URL representing the Blob
+      const url = URL.createObjectURL(blob);
+      setUploadedImage(url);
     };
+
+    if (file) {
+      // Read the file as a Blob
+      reader.readAsArrayBuffer(file);
+    } else {
+      setUploadedImage(null);
+    }
+  };
 
 
 
@@ -131,7 +139,7 @@ function App(props) {
     <Container>
     <MenuContainer isOpen={isMenuOpen}>
       <Menu 
-        setChat={(chat) => { setChat(chat); setIsMenuOpen(false); }}
+        setChat={(chat) => { setChat(chat); setIsMenuOpen(false)}}
         userInfo={userInfo}
         refreshContactList={refreshContactList} 
         handleButtonClick={handleButtonClick}
@@ -146,7 +154,6 @@ function App(props) {
           userInfo={userInfo} 
           refreshContactList={() => {
             toggleRefreshContactList(!refreshContactList);
-            setIsMenuOpen(true);
           }}
         />
       ) : (
