@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import httpManager from "../managers/httpManager";
 import utility from "../utility";
@@ -149,17 +149,16 @@ function Menu(props) {
   const [searchResult, setSearchResult] = useState("");
   const [menuOptions, setMenuOptions] = useState([]);
 
-  const refreshContacts = async () => {
+  const refreshContacts = useCallback(async () => {
     const contactListData = await httpManager.getChannelList(userInfo.email);
     setMenuOptions(contactListData.data.responseData);
     setSearchString();
     setSearchResult();
-  };
+  }, [userInfo.email]);
 
   useEffect(() => {
     refreshContacts();
-  }, [refreshContactList]);
-
+  }, [refreshContactList, refreshContacts]);
 
 
 
