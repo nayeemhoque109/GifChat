@@ -115,7 +115,6 @@ const SearchResults = styled.div`
 
 const FriendComponent = (props) => {
   const { userData,setChat, userInfo } = props;
-  const [searchResult, setSearchResult] = useState();
 
   const otherUser =
     userData.channelUsers?.find(

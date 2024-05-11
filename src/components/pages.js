@@ -89,7 +89,6 @@ const Pages =(props)=>{
   const [text, setText] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [uploadedImage, setUploadedImage] = useState(null);
-  const [uploadError, setUploadError] = useState(null);
   
 
   useEffect(() => {
@@ -152,7 +151,7 @@ const Pages =(props)=>{
         senderEmail: userInfo.email,
         addedOn: new Date().getTime(),
       };
-      const messageResponse = await httpManager.sendMessage({
+      await httpManager.sendMessage({
         channelId,
         messages: msgReqData,
       });
@@ -191,7 +190,7 @@ const Pages =(props)=>{
       senderEmail: userInfo.email,
       addedOn: new Date().getTime(),
     };
-    const messageResponse = await httpManager.sendMessage({
+    await httpManager.sendMessage({
       channelId,
       messages: msgReqData,
     });
