@@ -152,6 +152,7 @@ function Menu(props) {
   const refreshContacts = useCallback(async () => {
     const contactListData = await httpManager.getChannelList(userInfo.email);
     setMenuOptions(contactListData.data.responseData);
+    console.log(contactListData.data.responseData);
     setSearchString();
     setSearchResult();
   }, [userInfo.email]);
@@ -197,7 +198,7 @@ function Menu(props) {
         </SearchResults>
       )}
       <button onClick={handleButtonClick}>Create GIF</button>
-      {menuOptions && menuOptions.map((userData) => (
+      {menuOptions.map((userData) => (
         <FriendComponent
         userInfo={userInfo}
         userData={userData} 
