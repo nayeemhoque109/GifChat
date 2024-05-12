@@ -114,7 +114,7 @@ const Pages =(props)=>{
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch('http://localhost:3001/upload', {
+    const response = await fetch('https://ca8b-152-37-80-207.ngrok-free.app/upload', {
       method: 'POST',
       body: formData,
     });
@@ -211,7 +211,7 @@ const Pages =(props)=>{
           <MessageDiv isYours={messageData.senderEmail === userInfo.email}>
             <Message isYours={messageData.senderEmail === userInfo.email}>
               {messageData.text.startsWith('/uploads/') ? (
-          <img src={`http://localhost:3001${messageData.text}`} alt="Uploaded content" />
+          <img src={`https://ca8b-152-37-80-207.ngrok-free.app ${messageData.text}`} alt="Uploaded content" />
           ) : (
                 messageData.text
               )}

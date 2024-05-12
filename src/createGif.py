@@ -14,7 +14,7 @@ root.title('GifChat')
 root.geometry('1024x1024')
 
 def open_webpage():
-    webbrowser.open('http://localhost:3000')
+    webbrowser.open('https://gifchat.netlify.app/')
 
 def convert_to_gif():
     text = text_entry.get("1.0", tk.END).strip()
