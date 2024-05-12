@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3001";
+const API_BASE_URL = "https://ca8b-152-37-80-207.ngrok-free.app";
 
 const createUser = async (userData) => {
   return await axios.post(`${API_BASE_URL}/user`, userData);
