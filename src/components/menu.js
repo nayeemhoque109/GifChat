@@ -197,7 +197,7 @@ function Menu(props) {
         </SearchResults>
       )}
       <button onClick={handleButtonClick}>Create GIF</button>
-      {menuOptions.map((userData) => (
+      {menuOptions && menuOptions.map((userData) => (
         <FriendComponent
         userInfo={userInfo}
         userData={userData} 
