@@ -149,6 +149,7 @@ function Menu(props) {
   const [searchResult, setSearchResult] = useState("");
   const [menuOptions, setMenuOptions] = useState([]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const refreshContacts = useCallback(async () => {
     console.log('refreshContacts called');
     try {
