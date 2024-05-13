@@ -166,17 +166,13 @@ function Menu(props) {
     setSearchResult();
   }, [userInfo.email]);
 
-  useCallback(() => {
-    // Function implementation
-}, [menuOptions]);
-
   useEffect(() => {
     refreshContacts();
   }, [refreshContactList, refreshContacts]);
 
-useEffect(() => {
-  console.log('menuOptions:', menuOptions);
-}, [menuOptions]);
+  useEffect(() => {
+    console.log('menuOptions:', menuOptions);
+  }, [menuOptions]);
 
  const onSearchTextChanged = async (searchText) => {
   console.log('onSearchTextChanged called with searchText:', searchText);
