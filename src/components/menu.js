@@ -150,9 +150,17 @@ function Menu(props) {
   const [menuOptions, setMenuOptions] = useState([]);
 
   const refreshContacts = useCallback(async () => {
-    const contactListData = await httpManager.getChannelList(userInfo.email);
-    setMenuOptions(contactListData.data.responseData);
-    console.log(contactListData.data.responseData);
+    console.log('refreshContacts called');
+    try {
+      const contactListData = await httpManager.getChannelList(userInfo.email);
+      console.log('contactListData:', contactListData);
+      if (contactListData && contactListData.responseData) {
+        setMenuOptions(contactListData.responseData);
+      }
+    } catch (error) {
+      console.error('Error fetching contact list:', error);
+    }
+    console.log('menuOptions:', menuOptions);
     setSearchString();
     setSearchResult();
   }, [userInfo.email]);
@@ -161,16 +169,25 @@ function Menu(props) {
     refreshContacts();
   }, [refreshContactList, refreshContacts]);
 
+useEffect(() => {
+  console.log('menuOptions:', menuOptions);
+}, [menuOptions]);
 
+ const onSearchTextChanged = async (searchText) => {
+  console.log('onSearchTextChanged called with searchText:', searchText);
+  setSearchString(searchText);
+  if (!utility.validateEmail(searchText)) return;
 
-  const onSearchTextChanged = async (searchText) => {
-    setSearchString(searchText);
-    if (!utility.validateEmail(searchText)) return;
-
+  try {
     const userData = await httpManager.searchUser(searchText);
-    if (userData.data?.success) setSearchResult(userData.data.responseData);
-  };
-
+    console.log('userData:', userData);
+    if (userData && userData.data && userData.data.success) {
+      setSearchResult(userData.data.responseData);
+    }
+  } catch (error) {
+    console.error('Error searching user:', error);
+  }
+};
 
   return (
     <Container>

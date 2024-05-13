@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./node_modules/babel-cli/bin/babel-node.js --presets node8 ./server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tunnel": "ngrok http 3001"
   },
   "author": "Mohammed Nayeem Hoque",
   "license": "ISC",
