@@ -166,6 +166,10 @@ function Menu(props) {
     setSearchResult();
   }, [userInfo.email]);
 
+  useCallback(() => {
+    // Function implementation
+}, [menuOptions]);
+
   useEffect(() => {
     refreshContacts();
   }, [refreshContactList, refreshContacts]);
