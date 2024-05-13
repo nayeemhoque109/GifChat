@@ -164,7 +164,7 @@ function Menu(props) {
     console.log('menuOptions:', menuOptions);
     setSearchString();
     setSearchResult();
-  }, [userInfo.email]);
+  }, [menuOptions, userInfo.email]);
 
   useEffect(() => {
     refreshContacts();
