@@ -89,6 +89,7 @@ function App(props) {
   const [refreshContactList, toggleRefreshContactList] = useState(false);
   const [uploadedImage, setUploadedImage] = useState();
   const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [message, setMessage] = useState(''); 
 
   useEffect(() => {
   window.scrollTo(0, 0); // scroll to top
@@ -134,6 +135,55 @@ function App(props) {
     alert("Logged out successfully, please refresh the page");
   };
 
+  const convertToGif = () => {
+    var text = document.getElementById("text").value;
+    fetch('http://localhost:5000/convert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({text: text}),
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      var url = window.URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'output.gif';
+      document.body.appendChild(a); // we need to append the element to the dom -> invisible
+      a.click();
+      a.remove();  //afterwards we remove the element again         
+    })
+    .catch((error) => console.error('Error:', error));
+  }
+
+  const createTxtFile = () => {
+    var text = document.getElementById("text").value;
+    fetch('http://localhost:5000/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({text: text}),
+    })
+    .then(response => response.json())
+    .then(data => setMessage(data.message)) // Change this line
+    .catch((error) => console.error('Error:', error));
+  }
+
+  const executeBatFile = () => {
+    fetch('http://localhost:5000/execute', {
+      method: 'POST',
+    })
+    .then(response => response.json())
+    .then(data => {
+      setMessage(data.message); // Add this line
+      document.getElementById('terminal').innerText = data.output;
+    })
+    .catch((error) => console.error('Error:', error));
+  }
+  
+
 
   return (
     <Container>
@@ -158,11 +208,19 @@ function App(props) {
         />
       ) : (
         <Placeholder>
-          <h2>To create a GIF return back to the application</h2>
+          <h2>Create and view you GIF</h2>
+          
+          <ChatPlaceholder src="/logo.png" />
+          <h3>Write prompt and wait for messages:</h3>
+          <textarea id="text" placeholder="Enter text"></textarea>
+          <button onClick={createTxtFile}>Send prompt</button>
+          <button onClick={executeBatFile}>Run and execute</button>
+          <button onClick={convertToGif}>Download GIF</button>
+          <div id="terminal"></div>
+          <p>{message}</p>
           <h3>Upload your GIF to view the result</h3>
           <FileInput type="file" accept="image/gif" onChange={handleImageUpload} />
           {uploadedImage && <DisplayedImage src={uploadedImage} />}
-          <ChatPlaceholder src="/logo.png" />
         </Placeholder>
       )}
     </ContentContainer>

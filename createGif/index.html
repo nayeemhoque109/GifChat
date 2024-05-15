@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+body {
+  font-family: Arial, sans-serif;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+#terminal {
+  height: 200px;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  margin-top: 20px;
+  overflow: auto;
+  white-space: pre-wrap;
+  font-family: monospace;
+}
+</style>
+</head>
+<body>
+
+<h2>GifChat</h2>
+
+<textarea id="text" placeholder="Enter text"></textarea>
+<button onclick="createTxtFile()">Send prompt</button>
+<button onclick="executeBatFile()">Run and execute</button>
+<button onclick="convertToGif()">Download GIF</button>
+<button onclick="openWebpage()">Open GifChat Messenger</button>
+
+<div id="terminal"></div>
+
+
+<script>
+function convertToGif() {
+  var text = document.getElementById("text").value;
+  fetch('https://helpful-concrete-earwig.ngrok-free.app/convert', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({text: text}),
+  })
+  .then(response => response.blob())
+  .then(blob => {
+    var url = window.URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'output.gif';
+    document.body.appendChild(a); // we need to append the element to the dom -> invisible
+    a.click();
+    a.remove();  //afterwards we remove the element again         
+  })
+  .catch((error) => console.error('Error:', error));
+}
+
+function createTxtFile() {
+  var text = document.getElementById("text").value;
+  fetch('https://helpful-concrete-earwig.ngrok-free.app/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({text: text}),
+  })
+  .then(response => response.json())
+  .then(data => alert(data.message))
+  .catch((error) => console.error('Error:', error));
+}
+
+function executeBatFile() {
+  fetch('https://helpful-concrete-earwig.ngrok-free.app0/execute', {
+    method: 'POST',
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert(data.message);
+    document.getElementById('terminal').innerText = data.output;
+  })
+  .catch((error) => console.error('Error:', error));
+}
+
+function openWebpage() {
+  window.open('https://gifchat.netlify.app/', '_blank');
+}
+</script>
+
+</body>
+</html>
