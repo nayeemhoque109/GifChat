@@ -95,7 +95,9 @@ const Pages =(props)=>{
     setMessageList(selectedChat.channelData.messages);
   }, [selectedChat]);
 
-
+  useEffect(() => {
+    console.log('messageList:', messageList);
+  }, [messageList]);
 
 
   const handleImageUpload = async (event) => {
@@ -114,7 +116,7 @@ const Pages =(props)=>{
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch('https://daily-choice-cattle.ngrok-free.app/upload', {
+    const response = await fetch('http://localhost:3001/upload', {
       method: 'POST',
       body: formData,
     });
@@ -151,11 +153,20 @@ const Pages =(props)=>{
         senderEmail: userInfo.email,
         addedOn: new Date().getTime(),
       };
-      await httpManager.sendMessage({
-        channelId,
-        messages: msgReqData,
-      });
+      console.log('Sending message:', { channelId, messages: msgReqData });
+
+      try {
+        const response = await httpManager.sendMessage({
+          channelId,
+          messages: msgReqData,
+        });
+
+        console.log('Received response:', response);
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
       messages.push(msgReqData);
+      console.log(messages)
       setMessageList(messages);
       setText("");
       refreshContactList();
@@ -211,7 +222,7 @@ const Pages =(props)=>{
           <MessageDiv isYours={messageData.senderEmail === userInfo.email}>
             <Message isYours={messageData.senderEmail === userInfo.email}>
               {messageData.text.startsWith('/uploads/') ? (
-          <img src={`https://daily-choice-cattle.ngrok-free.app${messageData.text}`} alt="Uploaded content" />
+          <img src={`http://localhost:3001${messageData.text}`} alt="Uploaded content" />
           ) : (
                 messageData.text
               )}

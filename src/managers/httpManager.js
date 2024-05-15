@@ -1,60 +1,25 @@
-const API_BASE_URL = "https://daily-choice-cattle.ngrok-free.app";
+import axios from "axios";
 
-const fetchWithHeaders = (url, options) => {
-  return fetch(url, {
-    ...options,
-    headers: new Headers({
-      "ngrok-skip-browser-warning": "69420",
-    }),
-  });
-};
+const API_BASE_URL = "http://localhost:3001";
 
 const createUser = async (userData) => {
-  const response = await fetchWithHeaders(`${API_BASE_URL}/user`, {
-    method: 'POST',
-    body: JSON.stringify(userData),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const data = await response.json();
-  return data;
+  return await axios.post(`${API_BASE_URL}/user`, userData);
 };
 
 const searchUser = async (email) => {
-  const response = await fetchWithHeaders(`${API_BASE_URL}/search-user?email=${email}`);
-  const data = await response.json();
-  return data;
+  return await axios.get(`${API_BASE_URL}/search-user?email=${email}`);
 };
 
 const createChannel = async (requestData) => {
-  const response = await fetchWithHeaders(`${API_BASE_URL}/channel`, {
-    method: 'POST',
-    body: JSON.stringify(requestData),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const data = await response.json();
-  return data;
+  return await axios.post(`${API_BASE_URL}/channel`, requestData);
 };
 
 const getChannelList = async (email) => {
-  const response = await fetchWithHeaders(`${API_BASE_URL}/channel-list?email=${email}`);
-  const data = await response.json();
-  return data;
+  return await axios.get(`${API_BASE_URL}/channel-list?email=${email}`);
 };
 
 const sendMessage = async (requestData) => {
-  const response = await fetchWithHeaders(`${API_BASE_URL}/message`, {
-    method: 'POST',
-    body: JSON.stringify(requestData),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const data = await response.json();
-  return data;
+  return await axios.post(`${API_BASE_URL}/message`, requestData);
 };
 
 export const httpManager = {

@@ -155,16 +155,17 @@ function Menu(props) {
     try {
       const contactListData = await httpManager.getChannelList(userInfo.email);
       console.log('contactListData:', contactListData);
-      if (contactListData && contactListData.responseData) {
-        setMenuOptions(contactListData.responseData);
+      if (contactListData && contactListData.data.responseData) {
+        setMenuOptions(contactListData.data.responseData);
       }
     } catch (error) {
       console.error('Error fetching contact list:', error);
     }
-    console.log('menuOptions:', menuOptions);
     setSearchString();
     setSearchResult();
-  }, [menuOptions, userInfo.email]);
+  }, [userInfo.email]); // Removed menuOptions from here
+
+  console.log('menuOptions:', menuOptions);
 
   useEffect(() => {
     refreshContacts();
