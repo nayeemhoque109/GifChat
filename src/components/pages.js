@@ -158,7 +158,7 @@ const Pages =(props)=>{
       try {
         const response = await httpManager.sendMessage({
           channelId,
-          messages: [msgReqData],
+          messages: msgReqData,
         });
 
         console.log('Received response:', response);
