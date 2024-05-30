@@ -137,7 +137,7 @@ function App(props) {
 
   const convertToGif = () => {
     var text = document.getElementById("text").value;
-    fetch('https://471d05486ba8cfdd62625ef7d142b83d.loophole.site/convert', {
+    fetch('http://d7ugth4.localto.net0/convert', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ function App(props) {
 
   const createTxtFile = () => {
     var text = document.getElementById("text").value;
-    fetch('https://471d05486ba8cfdd62625ef7d142b83d.loophole.site/create', {
+    fetch('http://d7ugth4.localto.net/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -172,7 +172,7 @@ function App(props) {
   }
 
   const executeBatFile = () => {
-    fetch('https://471d05486ba8cfdd62625ef7d142b83d.loophole.site/execute', {
+    fetch('http://d7ugth4.localto.net/execute', {
       method: 'POST',
     })
     .then(response => response.json())
