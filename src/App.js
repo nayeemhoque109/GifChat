@@ -137,7 +137,7 @@ function App(props) {
 
   const convertToGif = () => {
     var text = document.getElementById("text").value;
-    fetch('http://d7ugth4.localto.net0/convert', {
+    fetch('https://yfwl3bva58pv.share.zrok.io/convert', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ function App(props) {
 
   const createTxtFile = () => {
     var text = document.getElementById("text").value;
-    fetch('http://d7ugth4.localto.net/create', {
+    fetch('https://yfwl3bva58pv.share.zrok.io/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -172,7 +172,7 @@ function App(props) {
   }
 
   const executeBatFile = () => {
-    fetch('http://d7ugth4.localto.net/execute', {
+    fetch('https://yfwl3bva58pv.share.zrok.io/execute', {
       method: 'POST',
     })
     .then(response => response.json())
