@@ -64,8 +64,8 @@ text_prompt: [ '
 @app.route('/execute', methods=['POST'])
 def execute_bat_file():
     process = subprocess.Popen(["cmd", "/c", "C:/Users/user 1/Downloads/gifchat/run.bat"], stdout=subprocess.PIPE)
-    output = process.communicate()[0]
-    return jsonify({'message': 'GIF successfully made. Please download GIF', 'output': output.decode()}), 200
+    return jsonify({'message': 'GIF successfully made. Please download GIF'}), 200
+
 
 if __name__ == '__main__':
     app.run(port=5000)
