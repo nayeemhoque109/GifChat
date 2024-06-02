@@ -89,7 +89,6 @@ function App(props) {
   const [refreshContactList, toggleRefreshContactList] = useState(false);
   const [uploadedImage, setUploadedImage] = useState();
   const [isMenuOpen, setIsMenuOpen] = useState(true);
-  const [message, setMessage] = useState(''); 
 
   useEffect(() => {
   window.scrollTo(0, 0); // scroll to top
@@ -218,7 +217,6 @@ function App(props) {
           <button onClick={executeBatFile}>Run and execute</button>
           <button onClick={convertToGif}>Download GIF</button>
           <div id="terminal"></div>
-          <p>{message}</p>
           <h3>Upload your GIF to view the result</h3>
           <FileInput type="file" accept="image/gif" onChange={handleImageUpload} />
           {uploadedImage && <DisplayedImage src={uploadedImage} />}
