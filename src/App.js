@@ -167,7 +167,7 @@ function App(props) {
       body: JSON.stringify({text: text}),
     })
     .then(response => response.json())
-    .then(data => setMessage(data.message)) // Change this line
+    .then(data => alert(data.message)) // Change this line
     .catch((error) => console.error('Error:', error));
   }
 
@@ -178,7 +178,7 @@ function App(props) {
     })
     .then(response => response.json())
     .then(data => {
-      setMessage(data.message);
+      alert(data.message);
       document.getElementById('terminal').innerText = data.output;
     })
     .catch((error) => console.error('Error:', error));
