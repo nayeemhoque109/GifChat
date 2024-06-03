@@ -172,12 +172,15 @@ function App(props) {
 
   const executeBatFile = () => {
     alert('Execution has started. Please wait for further messages.');
-    fetch('https://3iqxtodzx115.share.zrok.io/execute', {
+    fetch('https://yfwl3bva58pv.share.zrok.io/execute', {
       method: 'POST',
     })
     .then(response => response.json())
     .then(data => {
-      alert(data.message);
+      if (data.message) {
+        alert(data.message);
+      }
+      document.getElementById('terminal').innerText = data.output;
     })
     .catch((error) => console.error('Error:', error));
   }
