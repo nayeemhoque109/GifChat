@@ -30,21 +30,17 @@ def create_txt_file():
 ckpt_path: "../pretrained_models/lavie_base.pt"
 output_folder: "../res/base/"
 pretrained_path: "../pretrained_models"
-
 # model config: 
 model: UNet
 video_length: 16
 image_size: [320, 512]
-
 # beta schedule
 beta_start: 0.0001
 beta_end: 0.02
 beta_schedule: "linear"
-
 # model speedup
 use_compile: False
 use_fp16: True
-
 # sample config:
 seed: #400
 run_time: 0
@@ -64,8 +60,8 @@ text_prompt: [ '
 @app.route('/execute', methods=['POST'])
 def execute_bat_file():
     process = subprocess.Popen(["cmd", "/c", "C:/Users/user 1/Downloads/gifchat/run.bat"], stdout=subprocess.PIPE)
-    return jsonify({'message': 'GIF successfully made. Please download GIF'}), 200
-
+    output = process.communicate()[0]
+    return jsonify({'message': 'GIF successfully made. Please download GIF', 'output': output.decode()}), 200
 
 if __name__ == '__main__':
     app.run(port=5000)
