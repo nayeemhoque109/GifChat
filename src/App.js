@@ -178,7 +178,6 @@ function App(props) {
     .then(response => response.json())
     .then(data => {
       alert(data.message);
-      document.getElementById('terminal').innerText = data.output;
     })
     .catch((error) => console.error('Error:', error));
   }
@@ -216,7 +215,6 @@ function App(props) {
           <button onClick={createTxtFile}>Send prompt</button>
           <button onClick={executeBatFile}>Run and execute</button>
           <button onClick={convertToGif}>Download GIF</button>
-          <div id="terminal"></div>
           <h3>Upload your GIF to view the result</h3>
           <FileInput type="file" accept="image/gif" onChange={handleImageUpload} />
           {uploadedImage && <DisplayedImage src={uploadedImage} />}
