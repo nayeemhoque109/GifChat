@@ -1,2 +1,3 @@
 @echo on
-call zrok share public --backend-mode proxy http://127.0.0.1:5000
+call cd C:\Users\user 1\Downloads\zrok_0.4.30_windows_amd64
+call zrok share reserved 3iqxtodzx115
