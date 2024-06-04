@@ -180,7 +180,9 @@ function App(props) {
       if (data.message) {
         alert(data.message);
       }
-      document.getElementById('terminal').innerText = data.output;
+      if (data.output) {
+        alert(data.output); // Display the terminal output as an alert
+      }
     })
     .catch((error) => console.error('Error:', error));
   }
