@@ -177,14 +177,18 @@ function App(props) {
     })
     .then(response => response.json())
     .then(data => {
+      console.log(data); // Log the entire response to the console
       if (data.message) {
         alert(data.message);
       }
       if (data.output) {
-        alert(data.output); // Display the terminal output as an alert
+        alert(data.output);
       }
     })
-    .catch((error) => console.error('Error:', error));
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('GIF successfully made. Please download GIF'); // Display this message when a fetch error occurs
+    });
   }
   
 

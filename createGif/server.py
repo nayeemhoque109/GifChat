@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
+from flask_cors import cross_origin
 from moviepy.editor import VideoFileClip
 import subprocess
 
 app = Flask(__name__)
-CORS(app)  # This will enable CORS for all routes
+CORS(app)
 
 
 
@@ -58,6 +59,7 @@ text_prompt: [ '
         return jsonify({'message': 'No text provided'}), 400
 
 @app.route('/execute', methods=['POST'])
+@cross_origin()
 def execute_bat_file():
     process = subprocess.Popen(["cmd", "/c", "C:/Users/user 1/Downloads/gifchat/run.bat"], stdout=subprocess.PIPE)
     output = process.communicate()[0]
