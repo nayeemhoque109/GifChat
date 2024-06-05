@@ -177,18 +177,18 @@ function App(props) {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data); // Log the entire response to the console
-      if (data.message) {
-        alert(data.message);
-      }
-      if (data.output) {
-        alert(data.output);
+      console.log('Server response:', data);
+      alert(data.message);
+      const terminalElement = document.getElementById('terminal');
+      if (terminalElement) {
+        terminalElement.innerText = data.output;
+        console.log('Terminal content:', terminalElement.innerText);
+        alert(terminalElement.innerText);
+      } else {
+        console.log('No element with id "terminal" found');
       }
     })
-    .catch((error) => {
-      console.error('Error:', error);
-      alert('GIF successfully made. Please download GIF'); // Display this message when a fetch error occurs
-    });
+    .catch((error) => console.error('Fetch error:', error));
   }
   
 

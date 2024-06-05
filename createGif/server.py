@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, send_file
-from flask_cors import CORS
-from flask_cors import cross_origin
+from flask_cors import CORS, cross_origin
 from moviepy.editor import VideoFileClip
 import subprocess
 
@@ -63,7 +62,7 @@ text_prompt: [ '
 def execute_bat_file():
     process = subprocess.Popen(["cmd", "/c", "C:/Users/user 1/Downloads/gifchat/run.bat"], stdout=subprocess.PIPE)
     output = process.communicate()[0]
-    return jsonify({'message': 'GIF successfully made. Please download GIF', 'output': output.decode()}), 200
+    return jsonify({'message': 'GIF successfully made. Please download GIF'}), 200
 
 if __name__ == '__main__':
     app.run(port=5000)
