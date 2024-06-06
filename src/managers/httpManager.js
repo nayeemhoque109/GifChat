@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://helpful-concrete-earwig.ngrok-free.app";
+const API_BASE_URL = "https://62onvtzfj6el.share.zrok.io";
 
 const createUser = async (userData) => {
   return await axios.post(`${API_BASE_URL}/user`, userData);

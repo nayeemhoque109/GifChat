@@ -97,7 +97,7 @@ function App(props) {
     document.body.style.overflow = 'unset'; // allow scrolling when component unmounts
   };
 }, []); 
- 
+ ////////////////////////
   <button onClick={() => setIsMenuOpen(true)}>Open Menu</button>
 
   const handleImageUpload = (event) => {
@@ -136,7 +136,7 @@ function App(props) {
 
   const convertToGif = () => {
     var text = document.getElementById("text").value;
-    fetch('https://3iqxtodzx115.share.zrok.io/convert', {
+    fetch('https://helpful-concrete-earwig.ngrok-free.app/convert', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ function App(props) {
 
   const createTxtFile = () => {
     var text = document.getElementById("text").value;
-    fetch('https://3iqxtodzx115.share.zrok.io/create', {
+    fetch('https://helpful-concrete-earwig.ngrok-free.app/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -172,23 +172,12 @@ function App(props) {
 
   const executeBatFile = () => {
     alert('Execution has started. Please wait for further messages.');
-    fetch('https://3iqxtodzx115.share.zrok.io/execute', {
+    fetch('https://helpful-concrete-earwig.ngrok-free.app/execute', {
       method: 'POST',
     })
     .then(response => response.json())
-    .then(data => {
-      console.log('Server response:', data);
-      alert(data.message);
-      const terminalElement = document.getElementById('terminal');
-      if (terminalElement) {
-        terminalElement.innerText = data.output;
-        console.log('Terminal content:', terminalElement.innerText);
-        alert(terminalElement.innerText);
-      } else {
-        console.log('No element with id "terminal" found');
-      }
-    })
-    .catch((error) => console.error('Fetch error:', error));
+    .then(data => alert(data.message)) // Change this line
+    .catch((error) => console.error('Error:', error));
   }
   
 

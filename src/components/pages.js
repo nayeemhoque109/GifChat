@@ -116,7 +116,7 @@ const Pages =(props)=>{
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch('https://helpful-concrete-earwig.ngrok-free.app/upload', {
+    const response = await fetch('https://62onvtzfj6el.share.zrok.io/upload', {
       method: 'POST',
       body: formData,
     });
@@ -222,7 +222,7 @@ const Pages =(props)=>{
           <MessageDiv isYours={messageData.senderEmail === userInfo.email}>
             <Message isYours={messageData.senderEmail === userInfo.email}>
               {messageData.text.startsWith('/uploads/') ? (
-          <img src={`https://helpful-concrete-earwig.ngrok-free.app${messageData.text}`} alt="Uploaded content" />
+          <img src={`https://62onvtzfj6el.share.zrok.io${messageData.text}`} alt="Uploaded content" />
           ) : (
                 messageData.text
               )}
