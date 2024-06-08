@@ -116,7 +116,7 @@ const Pages =(props)=>{
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch('https://daily-choice-cattle.ngrok-free.app/upload', {
+    const response = await fetch('http://16.16.135.175:3001/upload', {
       method: 'POST',
       body: formData,
     });
@@ -222,7 +222,7 @@ const Pages =(props)=>{
           <MessageDiv isYours={messageData.senderEmail === userInfo.email}>
             <Message isYours={messageData.senderEmail === userInfo.email}>
               {messageData.text.startsWith('/uploads/') ? (
-          <img src={`https://daily-choice-cattle.ngrok-free.app${messageData.text}`} alt="Uploaded content" />
+          <img src={`http://16.16.135.175:3001${messageData.text}`} alt="Uploaded content" />
           ) : (
                 messageData.text
               )}

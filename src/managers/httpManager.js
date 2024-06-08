@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://daily-choice-cattle.ngrok-free.app";
+const API_BASE_URL = "http://16.16.135.175:3001/";
 
 const createUser = async (userData) => {
   return await axios.post(`${API_BASE_URL}/user`, userData);
