@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://16.16.135.175:3001";
+const API_BASE_URL = "https://d1hk12cjx9vc3u.cloudfront.net";
 
 const createUser = async (userData) => {
   return await axios.post(`${API_BASE_URL}/user`, userData);
