@@ -5,6 +5,7 @@ import Pages from "./components/pages";
 import cookieManager from "./managers/cookieManager";
 
 
+
 const Container = styled.div`
   background: #f8f9fb;
   height: 100vh;
@@ -89,6 +90,22 @@ function App(props) {
   const [refreshContactList, toggleRefreshContactList] = useState(false);
   const [uploadedImage, setUploadedImage] = useState();
   const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [serverStatus, setServerStatus] = useState(null);
+
+
+  useEffect(() => {
+    fetch('https://helpful-concrete-earwig.ngrok-free.app')
+      .then(response => {
+        if (response.ok) {
+          setServerStatus('connected');
+        } else {
+          setServerStatus('disconnected');
+        }
+      })
+      .catch(() => {
+        setServerStatus('disconnected');
+      });
+  }, []);
 
   useEffect(() => {
   window.scrollTo(0, 0); // scroll to top
@@ -206,7 +223,10 @@ function App(props) {
       ) : (
         <Placeholder>
           <h2>Create and view you GIF</h2>
-          
+          <div>
+            {serverStatus === 'connected' && <p style={{ color: 'green' }}>GIF server is connected</p>}
+            {serverStatus === 'disconnected' && <p style={{ color: 'red' }}>GIF server is disconnected</p>}
+          </div>
           <ChatPlaceholder src="/logo.png" />
           <h3>Write prompt and wait for messages:</h3>
           <textarea id="text" placeholder="Enter text"></textarea>
