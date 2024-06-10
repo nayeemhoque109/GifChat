@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://ec2-16-16-135-175.eu-north-1.compute.amazonaws.com:3001";
+const API_BASE_URL = "https://www.doc.gold.ac.uk/usr/216";
 
 const createUser = async (userData) => {
   return await axios.post(`${API_BASE_URL}/user`, userData);
