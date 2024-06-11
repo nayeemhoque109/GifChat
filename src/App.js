@@ -16,21 +16,22 @@ const Container = styled.div`
 `;
 
   const Placeholder = styled.div`
-  flex: 3;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  gap: 10px;
-  color: rgba(0, 0, 0, 0.45);
-  padding: 20px;
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    gap: 10px;
+    color: rgba(0, 0, 0, 0.45);
+    padding: 20px;
+    overflow-y: auto; 
 
-  span {
-    font-size: 32px;
-    color: #525252;
-  }
-`;
+    span {
+      font-size: 32px;
+      color: #525252;
+    }
+  `;
 const FileInput = styled.input`
   display: block;
   margin: 20px auto;
@@ -57,15 +58,20 @@ const ChatPlaceholder = styled.img`
 const MenuContainer = styled.div`
   display: ${props => props.isOpen ? 'block' : 'none'};
   flex: 1;
+  overflow-y: auto;
+
 
   @media (min-width: 768px) {
     display: block;
+    overflow: hidden;
+
   }
 `;
 
 const ContentContainer = styled.div`
   display: ${props => props.isOpen ? 'none' : 'block'};
   flex: 2;
+  overflow-y: auto; 
 
   @media (min-width: 768px) {
     display: block;
