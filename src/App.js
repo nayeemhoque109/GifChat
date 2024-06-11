@@ -107,14 +107,7 @@ function App(props) {
       });
   }, []);
 
-  useEffect(() => {
-  window.scrollTo(0, 0); // scroll to top
-  document.body.style.overflow = 'hidden'; // prevent scrolling
-  return () => {
-    document.body.style.overflow = 'unset'; // allow scrolling when component unmounts
-  };
-}, []); 
- ////////////////////////
+
   <button onClick={() => setIsMenuOpen(true)}>Open Menu</button>
 
   const handleImageUpload = (event) => {
