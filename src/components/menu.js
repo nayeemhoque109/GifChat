@@ -184,7 +184,9 @@ function Menu(props) {
       console.log('userData:', userData);
       if (userData && userData.data && userData.data.success) {
         // Check if the searched email is already in the channelUsers of menuOptions
-        const existingUser = menuOptions.some(option => option.channelUsers.hasOwnProperty(searchText));
+        const existingUser = Object.values(menuOptions).some(option => 
+          Object.values(option.channelUsers).some(user => user.email === searchText)
+        );
 
         if (existingUser) {
           alert('You have already messaged this user.');
