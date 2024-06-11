@@ -149,7 +149,6 @@ function Menu(props) {
   const [searchResult, setSearchResult] = useState("");
   const [menuOptions, setMenuOptions] = useState([]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const refreshContacts = useCallback(async () => {
     console.log('refreshContacts called');
     try {
@@ -163,7 +162,7 @@ function Menu(props) {
     }
     setSearchString();
     setSearchResult();
-  }, [userInfo.email]); // Removed menuOptions from here
+  }, [userInfo.email]); 
 
   console.log('menuOptions:', menuOptions);
 
@@ -175,21 +174,29 @@ function Menu(props) {
     console.log('menuOptions:', menuOptions);
   }, [menuOptions]);
 
- const onSearchTextChanged = async (searchText) => {
-  console.log('onSearchTextChanged called with searchText:', searchText);
-  setSearchString(searchText);
-  if (!utility.validateEmail(searchText)) return;
+  const onSearchTextChanged = async (searchText) => {
+    console.log('onSearchTextChanged called with searchText:', searchText);
+    setSearchString(searchText);
+    if (!utility.validateEmail(searchText)) return;
 
-  try {
-    const userData = await httpManager.searchUser(searchText);
-    console.log('userData:', userData);
-    if (userData && userData.data && userData.data.success) {
-      setSearchResult(userData.data.responseData);
+    try {
+      const userData = await httpManager.searchUser(searchText);
+      console.log('userData:', userData);
+      if (userData && userData.data && userData.data.success) {
+        // Check if the searched email is already in the channelUsers of menuOptions
+        const existingUser = menuOptions.some(option => option.channelUsers.includes(searchText));
+
+        if (existingUser) {
+          alert('You have already messaged this user.');
+          return;
+        }
+
+        setSearchResult(userData.data.responseData);
+      }
+    } catch (error) {
+      console.error('Error searching user:', error);
     }
-  } catch (error) {
-    console.error('Error searching user:', error);
-  }
-};
+  };
 
   return (
     <Container>
