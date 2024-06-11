@@ -195,7 +195,7 @@ const Pages =(props)=>{
       });
       channelId = channelResponse.data.responseData._id;
     }
-    const messages = [...messageList];
+    const messages = [...(messageList || [])];
     const msgReqData = {
       text: uploadedImage || text,
       senderEmail: userInfo.email,
