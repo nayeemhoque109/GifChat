@@ -16,8 +16,8 @@ def convert_to_gif():
     if text:
         text = text.replace(' ', '_')
         text = '_' + text
-        clip = VideoFileClip(rf"C:\Users\user 1\Downloads\LaVie-main\LaVie-main\res\base\{text}.mp4")
-        gif_path = rf"C:\Users\user 1\Downloads\LaVie-main\LaVie-main\res\base\{text}.gif"
+        clip = VideoFileClip(rf"F:\LaVie-main\LaVie-main\res\base\{text}.mp4")
+        gif_path = rf"F:\LaVie-main\LaVie-main\res\base\{text}.gif"
         clip.write_gif(gif_path)
         return send_file(gif_path, mimetype='image/gif'), 200
     else:
@@ -27,7 +27,7 @@ def convert_to_gif():
 def create_txt_file():
     text = request.json.get('text')
     if text:
-        with open(r"C:\Users\user 1\Downloads\LaVie-main\LaVie-main\base\configs\sample.yaml", "w") as file:
+        with open(r"F:\LaVie-main\LaVie-main\base\configs\sample.yaml", "w") as file:
             file.write("""# path:
 ckpt_path: "../pretrained_models/lavie_base.pt"
 output_folder: "../res/base/"
