@@ -173,18 +173,21 @@ function App(props) {
   }
 
   const createTxtFile = () => {
-    alert('Execution has started. Please wait for further messages.');
-    var text = document.getElementById("text").value;
-    return fetch('https://helpful-concrete-earwig.ngrok-free.app/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({text: text}),
-    })
-    .then(response => response.json())
-    .then(data => alert(data.message))
-    .catch((error) => console.error('Error:', error));
+    if (serverStatus === 'connected') {
+      alert('Execution has started. Please wait for further messages.');
+      var text = document.getElementById("text").value;
+      return fetch('https://helpful-concrete-earwig.ngrok-free.app/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({text: text}),
+      })
+      .then(response => response.json())
+      .catch((error) => console.error('Error:', error));
+    } else {
+      alert('Please contact admin');
+    }
   }
 
   const executeBatFile = () => {
