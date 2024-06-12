@@ -173,8 +173,9 @@ function App(props) {
   }
 
   const createTxtFile = () => {
+    alert('Execution has started. Please wait for further messages.');
     var text = document.getElementById("text").value;
-    fetch('https://helpful-concrete-earwig.ngrok-free.app/create', {
+    return fetch('https://helpful-concrete-earwig.ngrok-free.app/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -182,22 +183,21 @@ function App(props) {
       body: JSON.stringify({text: text}),
     })
     .then(response => response.json())
-    .then(data => alert(data.message)) // Change this line
+    .then(data => alert(data.message))
     .catch((error) => console.error('Error:', error));
   }
 
   const executeBatFile = () => {
-    alert('Execution has started. Please wait for further messages.');
-    fetch('https://helpful-concrete-earwig.ngrok-free.app/execute', {
+    return fetch('https://helpful-concrete-earwig.ngrok-free.app/execute', {
       method: 'POST',
     })
     .then(response => response.json())
-    .then(data => alert(data.message)) // Change this line
+    .then(data => alert(data.message))
     .catch((error) => console.error('Error:', error));
   }
-  
-
-
+  const createAndExecute = () => {
+    createTxtFile().then(() => executeBatFile());
+  }
   return (
     <Container>
     <MenuContainer isOpen={isMenuOpen}>
@@ -229,8 +229,7 @@ function App(props) {
           <ChatPlaceholder src="/logo.png" />
           <h3>Write prompt and wait for messages:</h3>
           <textarea id="text" placeholder="Enter text"></textarea>
-          <button onClick={createTxtFile}>Send prompt</button>
-          <button onClick={executeBatFile}>Run and execute</button>
+          <button onClick={createAndExecute}>Send prompt and execute</button>
           <button onClick={convertToGif}>Download GIF</button>
           <h3>Upload your GIF to view the result</h3>
           <FileInput type="file" accept="image/gif" onChange={handleImageUpload} />
