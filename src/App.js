@@ -152,6 +152,14 @@ function App(props) {
 
   const convertToGif = () => {
     var text = document.getElementById("text").value;
+    if (!text.trim()) {
+      alert('Error: Text field is empty');
+      return;
+    }
+    if (serverStatus !== 'connected') {
+      alert('Server is not connected. Please contact admin.');
+      return;
+    }
     fetch('https://helpful-concrete-earwig.ngrok-free.app/convert', {
       method: 'POST',
       headers: {
@@ -173,9 +181,13 @@ function App(props) {
   }
 
   const createTxtFile = () => {
+    var text = document.getElementById("text").value;
+    if (!text.trim()) {
+      alert('Error: Text field is empty');
+      return;
+    }
     if (serverStatus === 'connected') {
       alert('Execution has started. Please wait for further messages.');
-      var text = document.getElementById("text").value;
       return fetch('https://helpful-concrete-earwig.ngrok-free.app/create', {
         method: 'POST',
         headers: {
